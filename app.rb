@@ -10,6 +10,21 @@ Pusher.key = 'a337f1f0e27defa52a95'
 
 set :haml, { :format => :html5 }
 
+before do
+  new_params = {}
+  params.each_pair do |full_key, value|
+    this_param = new_params
+    split_keys = full_key.split(/\]\[|\]|\[/)
+    split_keys.each_index do |index|
+      break if split_keys.length == index + 1
+      this_param[split_keys[index]] ||= {}
+      this_param = this_param[split_keys[index]]
+   end
+   this_param[split_keys.last] = value
+  end
+  request.params.replace new_params
+end
+
 class Post < Sequel::Model
   one_to_many :replies
 end
@@ -30,12 +45,11 @@ get '/page/:page' do
 end
 
 post '/new-post' do
-  post = Post.new do |p|
-    p.title = params[:title].strip
-    p.body = params[:body].strip
+  post = Post.create(params[:post])
+  if post.save
+    Pusher['main'].trigger("new-post", post.values.merge({ :dom_id => "post-#{post.id}" }))
+    redirect '/page/1'
   end
-  post.save
-  redirect '/page/1'
 end
 
 get '/post/:id/:page' do
