@@ -1,0 +1,15 @@
+%table#posts
+  - @posts.each do |post|
+    %tr
+      %td
+        %a{ :href => "/post/#{post.id}/1" }= post.title
+#new-post
+  %form{ :method => 'post', :action => '/new-post' }
+    %fieldset
+      %legend Title
+      %input{ :type => "text", :name => "title" }
+    %fieldset
+      %legend Body
+      %textarea{ :name => "body" }
+    %fieldset
+      %input{ :type => "submit", :name => "submit", :value => "Post" }
