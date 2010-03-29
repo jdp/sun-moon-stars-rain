@@ -7,6 +7,7 @@ DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://db/local.db')
 Sequel.extension :pagination
 
 Pusher.key = 'a337f1f0e27defa52a95'
+Pusher.secret = 'a337f1f0e27defa52a95'
 
 set :haml, { :format => :html5 }
 
