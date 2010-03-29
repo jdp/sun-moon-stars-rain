@@ -39,22 +39,25 @@ end
 
 get '/page/:page' do
   page = (params[:page] || 1).to_i
-  @posts = Post.all
-  @pagination = DB[:posts].paginate(page, 20)
+  @posts = Post.order(:id.desc)
+  @pagination = @posts.paginate(page, 20)
   haml :post_list
 end
 
-post '/new-post' do
+post '/new_post' do
+  content_type :json
   post = Post.create(params[:post])
   if post.save
-    Pusher['main'].trigger("new-post", post.values.merge({ :dom_id => "post-#{post.id}" }))
-    redirect '/page/1'
+    Pusher['main'].trigger("post_created", post.values.merge({ :dom_id => "post-#{post.id}" }), params[:socket_id])
+    {:status => :success}.to_json
+  else
+    {:status => :failure}.to_json
   end
 end
 
-get '/post/:id/:page' do
-  id = (params[:id] || 1).to_i
-  page = (params[:page] || 1).to_i
+get %r{/post/(\d+)(/(\d+))?} do
+  id = (params[:captures][0] || 1).to_i
+  page = (params[:captures][2] || 1).to_i
   @post = Post[id]
   @replies = @post.replies_dataset
   @pagination = @replies.paginate(page, 20)
