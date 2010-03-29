@@ -4,7 +4,7 @@ require 'sequel'
 require 'pusher'
 require 'rdiscount'
 
-DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://db/local.db')
+DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://db/local.sqlite')
 Sequel.extension :pagination
 
 Pusher.key = 'a337f1f0e27defa52a95'
