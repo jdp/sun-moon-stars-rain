@@ -8,6 +8,8 @@
     - ["swfobject", "FABridge", "web_socket"].each do |js|
       %script{ :type => "text/javascript", :src => "/js/#{js}.js" }
     %script{ :type => "text/javascript", :src => "http://pusherapp.com/js/v1/pusher.js" }
+    :javascript
+      WebSocket.__swfLocation = "/swf/WebSocketMain.swf";
     %script{ :type => "text/javascript", :src => "/js/sun.js" }
   %body
     #container

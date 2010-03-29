@@ -2,6 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'sequel'
 require 'pusher'
+require 'rdiscount'
 
 DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://db/local.db')
 Sequel.extension :pagination
@@ -28,10 +29,22 @@ end
 
 class Post < Sequel::Model
   one_to_many :replies
+
+  def before_create
+    super
+    self.created_at = Time.now.utc
+    self.html_body = RDiscount.new(body).to_html
+  end
 end
 
 class Reply < Sequel::Model
   many_to_one :thread
+
+  def before_create
+    super
+    self.created_at = Time.now.utc
+    self.html_body = RDiscount.new(body).to_html
+  end
 end
 
 get '/' do

@@ -1,6 +1,3 @@
-// Force WebSocket to work properly
-WebSocket.__swfLocation = "/swf/WebSocketMain.swf";
-
 var Sun = {
 
 	pusherApiKey: "a337f1f0e27defa52a95",
@@ -85,7 +82,7 @@ var Sun = {
 			var new_reply = $([
 				'<li class="reply new">',
 					'<div class="wrapper">',
-						'<div class="body">' + reply.body + '</div>',
+						'<div class="body">' + reply.html_body + '</div>',
 					'</div>',
 				'</li>'
 			].join(""));
