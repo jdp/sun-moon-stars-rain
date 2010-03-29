@@ -70,3 +70,9 @@ div.post {
     padding: 1em 0 0 0; }
     #replies li.reply p {
       margin-bottom: 1em; }
+
+ul.errors {
+  display: hidden; }
+  ul.errors li {
+    color: red;
+    font-weight: bold; }

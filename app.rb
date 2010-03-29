@@ -30,6 +30,11 @@ end
 class Post < Sequel::Model
   one_to_many :replies
 
+  def validate
+    errors.add(:title, "cannot be empty") if title.strip.empty?
+    errors.add(:body, "cannot be empty") if body.strip.empty?
+  end
+
   def before_create
     super
     self.created_at = Time.now.utc
@@ -39,6 +44,10 @@ end
 
 class Reply < Sequel::Model
   many_to_one :thread
+
+  def validate
+    errors.add(:body, "cannot be empty") if body.strip.empty?
+  end
 
   def before_create
     super
@@ -60,23 +69,25 @@ end
 
 post '/new_post' do
   content_type :json
-  post = Post.create(params[:post])
-  if post.save
+  post = Post.new(params[:post])
+  begin
+    post.save
     Pusher['main'].trigger("post_created", post.values.merge({ :dom_id => "post-#{post.id}" }), params[:socket_id])
     {:status => :success}.to_json
-  else
-    {:status => :failure}.to_json
+  rescue Sequel::ValidationFailed
+    {:status => :failure, :errors => post.errors}.to_json
   end
 end
 
 post '/new_reply' do
   content_type :json
-  reply = Reply.create(params[:reply])
-  if reply.save
+  reply = Reply.new(params[:reply])
+  begin
+    reply.save
     Pusher['main'].trigger("reply_created", reply.values.merge({ :dom_id => "reply-#{reply.id}"}), params[:socket_id])
     {:status => :success}.to_json
-  else
-    {:status => :failure}.to_json
+  rescue Sequel::ValidationFailed
+    {:status => :failure, :errors => reply.errors}.to_json
   end
 end
 

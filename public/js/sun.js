@@ -33,29 +33,53 @@ var Sun = {
 				newReply: $("#reply_form"),
 				replyBox: $("#reply_box")
 			};
-			Sun.elements.newPost.submit(function(form) {
-				Sun.createPost();
+			Sun.elements.newPost.submit(function(event) {
+				Sun.createPost($(event.currentTarget));
 				return false;
 			});
-			Sun.elements.newReply.submit(function(form) {
-				Sun.createReply();
+			Sun.elements.newReply.submit(function(event) {
+				Sun.createReply($(event.currentTarget));
 				return false;
 			});
 		});
 	},
 
-	createPost: function() {
+	createPost: function(form) {
 		$.post("/new_post", Sun.elements.newPost.serialize(), function(data) {
+			var error_list = form.find("ul.errors");
 			if (data.status == "failure") {
-				alert("failure creating new post!");
+				// Populate error listing with errors
+				error_list.empty();
+				for (var name in data.errors) {
+					for (var i = 0; i < data.errors[name].length; i++) {
+						error_list.append($("<li>" + name + ": " + data.errors[name][i] + "</li>"));
+					}
+				}
+				error_list.show();
+			}
+			else {
+				// Since the reply was successful, hide the error list
+				error_list.hide();
 			}
 		}, "json");
 	},
 
-	createReply: function() {
+	createReply: function(form) {
 		$.post("/new_reply", Sun.elements.newReply.serialize(), function(data) {
+			var error_list = form.find("ul.errors");
 			if (data.status == "failure") {
-				alert("failure creating new reply!");
+				// Populate error listing with errors
+				error_list.empty();
+				for (var name in data.errors) {
+					for (var i = 0; i < data.errors[name].length; i++) {
+						error_list.append($("<li>" + name + ": " + data.errors[name][i] + "</li>"));
+					}
+				}
+				error_list.show();
+			}
+			else {
+				// Since the reply was successful, hide the error list
+				error_list.hide();
 			}
 		}, "json");
 	},
