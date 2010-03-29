@@ -41,7 +41,7 @@ get '/page/:page' do
   page = (params[:page] || 1).to_i
   @posts = Post.order(:id.desc)
   @pagination = @posts.paginate(page, 20)
-  haml :post_list
+  haml :post_list, :layout => !request.xhr?
 end
 
 post '/new_post' do
