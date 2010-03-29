@@ -3,14 +3,11 @@
     %h3= @post.title
     .body= @post.html_body
 
-- if @paginated_replies.current_page_record_count > 0
-  %ul#replies
-    - @paginated_replies.each do |reply|
-      %li.reply{:id => "reply-#{reply.id}", :'data-post-id' => @post.id}
-        .wrapper
-          .body= reply.html_body
-- else
-  .wrapper No replies.
+%ul#replies
+  - @paginated_replies.each do |reply|
+    %li.reply{:id => "reply-#{reply.id}", :'data-post-id' => @post.id}
+      .wrapper
+        .body= reply.html_body
 
 #reply_box
   .wrapper

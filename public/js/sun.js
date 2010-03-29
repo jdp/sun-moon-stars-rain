@@ -77,7 +77,7 @@ var Sun = {
 	 * Callback for when new replies are created.
 	 */
 	onReplyCreated: function(reply) {
-		if (Sun.elements.replies.length && $("#post-" + reply.post_id).length) {
+		if ($("#post-" + reply.post_id).length) {
 			// Currently viewing same thread as new reply
 			var new_reply = $([
 				'<li class="reply new">',
