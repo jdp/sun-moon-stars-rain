@@ -2,7 +2,7 @@
   - @posts.each do |post|
     %tr.post{ :id => "post-#{post.id}" }
       %td
-        %a{ :href => "/post/#{post.id}" }= post.title
+        %a{ :href => "/post/#{post.id}" }= post[:title]
 %form#post_form{ :method => 'post', :action => '/new_post' }
   %fieldset
     %legend Title
