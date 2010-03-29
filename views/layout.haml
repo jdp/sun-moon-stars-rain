@@ -1,15 +1,19 @@
 %html
   %head
     %title sun moon stars rain
-    - ["jquery-1.4.1", "jquery.color", "jquery.timeago", "swfobject", "FABridge", "web_socket"].each do |js|
+    %link{ :type => "text/css", :media => "screen", :rel => "stylesheet", :href => "/stylesheets/reset.css" }
+    %link{ :type => "text/css", :media => "screen", :rel => "stylesheet", :href => "/stylesheets/moon.css" }
+    - ["jquery-1.4.1", "jquery.color", "jquery.timeago"].each do |js|
       %script{ :type => "text/javascript", :src => "/js/#{js}.js" }
-    %script{ :type => "text/javascript", :src => "http://pusherapp.com/js/v1/pusher.js?" }
+    - ["swfobject", "FABridge", "web_socket"].each do |js|
+      %script{ :type => "text/javascript", :src => "/js/#{js}.js" }
+    %script{ :type => "text/javascript", :src => "http://pusherapp.com/js/v1/pusher.js" }
     %script{ :type => "text/javascript", :src => "/js/sun.js" }
   %body
     #container
       #header
         .wrapper
-          %h1 Sun Moon Stars Rain
+          %h1
+            %a{ :name => "new_post", :href => "/" } Sun Moon Stars Rain
       #content
-        .wrapper
-          = yield
+        = yield

@@ -1,0 +1,57 @@
+!post_border = solid #eee 1px
+!blue = #02b8a3
+
+= rounded_corners(!radius)
+  border-radius = !radius
+  -moz-border-radius = !radius
+  -webkit-border-radius = !radius
+
+body
+  background-color: #ffffff
+
+h1
+  font-size: 200%
+  margin: .5em 0 .5em 0
+
+a
+  color: #333
+  font-weight: bold
+  text-decoration: none
+  &:hover
+    color = !blue
+
+input, textarea
+  border: none
+  background-color: #eee
+  padding: 0.5em
+  +rounded_corners(5px)
+
+fieldset
+  margin: 0 0 1em 0
+
+legend
+  display: none
+
+.wrapper
+  width: 760px
+  margin: auto
+
+#menu
+  top: 1.5em
+  left: 1em
+  position: fixed
+  li
+    a
+      color: #eee
+      background-color: #333
+      padding: .5em
+      +rounded_corners(5px)
+      &:hover
+        background-color = !blue
+
+#posts
+  width: 100%
+  border-top = !post_border
+  li.post
+    padding: 1em 0 1em 0
+    border-bottom = !post_border

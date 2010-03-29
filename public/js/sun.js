@@ -50,9 +50,11 @@ var Sun = {
 	 */
 	onPostCreated: function(post) {
 		var new_row = $([
-			'<tr class="post new" style="background-color: white;">',
-				'<td><a href="/post/' + post.id + '">' + post.title + '</a></td>',
-			'</tr>'].join(""));
+			'<li class="post new" style="background-color: white;">',
+				'<div class="wrapper">',
+					'<span class="thread-link"><a href="/post/' + post.id + '">' + post.title + '</a></span>',
+				'</div>',
+			'</li>'].join(""));
 		Sun.elements.posts.prepend(new_row);
 	}
 
