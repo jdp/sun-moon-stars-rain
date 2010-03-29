@@ -1,2 +1,3 @@
+sinatra --version '>= 1.0.0'
 pusher --version '>= 0.3.0'
 sequel --version '>= 3.9.0'
