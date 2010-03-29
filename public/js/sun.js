@@ -79,7 +79,10 @@ var Sun = {
 				'<div class="wrapper">',
 					'<span class="thread-link"><a href="/post/' + post.id + '">' + post.title + '</a></span>',
 				'</div>',
-			'</li>'].join(""));
+			'</li>'
+		].join("")).click(function() {
+			$(this).removeClass("new");
+		});
 		Sun.elements.posts.prepend(new_row);
 	},
 
@@ -90,19 +93,21 @@ var Sun = {
 		if ($("div#post-" + reply.post_id).length) {
 			// Currently viewing same thread as new reply
 			var new_reply = $([
-				'<li class="reply new">',
+				'<li id="reply-"' + reply.id + '" class="reply new">',
 					'<div class="wrapper">',
 						'<div class="body">' + reply.html_body + '</div>',
 					'</div>',
 				'</li>'
-			].join(""));
+			].join("")).click(function() {
+				$(this).removeClass("new");
+			});
 			Sun.elements.replies.append(new_reply);
 		}
 		else {
 			var thread_row = $("#post-" + reply.post_id);
 			var reply_counter = thread_row.find(".new-replies > .count");
 			reply_counter.text(parseInt(reply_counter.text()) + 1);
-			reply_counter.parent().addClass("new");
+			reply_counter.parent().addClass("new").show();
 		}
 	}
 
