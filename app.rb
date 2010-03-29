@@ -73,7 +73,7 @@ post '/new_reply' do
   content_type :json
   reply = Reply.create(params[:reply])
   if reply.save
-    Pusher['main'].trigger("reply_created", reply.values.merge({ :dom_id => "reply-#{reply.post_id}-#{reply.id}"}), params[:socket_id])
+    Pusher['main'].trigger("reply_created", reply.values.merge({ :dom_id => "reply-#{reply.id}"}), params[:socket_id])
     {:status => :success}.to_json
   else
     {:status => :failure}.to_json
