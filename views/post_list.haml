@@ -19,3 +19,7 @@
       .wrapper
         %span.thread-link
           %a{ :href => "/post/#{post.id}" }= post[:title]
+        %span.new-replies
+          (
+          %span.count> 0
+          &nbsp;new replies)

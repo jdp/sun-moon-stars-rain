@@ -72,7 +72,7 @@ post '/new_post' do
   post = Post.new(params[:post])
   begin
     post.save
-    Pusher['main'].trigger("post_created", post.values.merge({ :dom_id => "post-#{post.id}" }), params[:socket_id])
+    Pusher['main'].trigger("post_created", post.values, params[:socket_id])
     {:status => :success}.to_json
   rescue Sequel::ValidationFailed
     {:status => :failure, :errors => post.errors}.to_json
@@ -84,7 +84,7 @@ post '/new_reply' do
   reply = Reply.new(params[:reply])
   begin
     reply.save
-    Pusher['main'].trigger("reply_created", reply.values.merge({ :dom_id => "reply-#{reply.id}"}), params[:socket_id])
+    Pusher['main'].trigger("reply_created", reply.values, params[:socket_id])
     {:status => :success}.to_json
   rescue Sequel::ValidationFailed
     {:status => :failure, :errors => reply.errors}.to_json
@@ -92,9 +92,9 @@ post '/new_reply' do
 end
 
 get %r{/post/(\d+)(/(\d+))?} do
-  id = (params[:captures][0] || 1).to_i
+  post_id = (params[:captures][0] || 1).to_i
   page = (params[:captures][2] || 1).to_i
-  @post = Post[id]
+  @post = Post[post_id]
   @replies = @post.replies_dataset
   @paginated_replies = @replies.paginate(page, 20)
   haml :single_post

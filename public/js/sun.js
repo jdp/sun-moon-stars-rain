@@ -87,7 +87,7 @@ var Sun = {
 	 * Callback for when new replies are created.
 	 */
 	onReplyCreated: function(reply) {
-		if ($("#post-" + reply.post_id).length) {
+		if ($("div#post-" + reply.post_id).length) {
 			// Currently viewing same thread as new reply
 			var new_reply = $([
 				'<li class="reply new">',
@@ -99,7 +99,10 @@ var Sun = {
 			Sun.elements.replies.append(new_reply);
 		}
 		else {
-			// Swallow it, do something later
+			var thread_row = $("#post-" + reply.post_id);
+			var reply_counter = thread_row.find(".new-replies > .count");
+			reply_counter.text(parseInt(reply_counter.text()) + 1);
+			reply_counter.parent().addClass("new");
 		}
 	}
 

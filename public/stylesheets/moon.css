@@ -30,6 +30,9 @@ legend {
   width: 760px;
   margin: auto; }
 
+.new {
+  background-color: #ffffcc; }
+
 #menu {
   top: 1.5em;
   left: 1em;
@@ -51,8 +54,6 @@ legend {
     padding: 1em 0 1em 0;
     border-bottom: solid #eeeeee 1px;
     background-color: #ffffff; }
-  #posts li.new {
-    background-color: #ffffcc; }
 
 div.post {
   border-top: solid #eeeeee 1px;
@@ -70,9 +71,3 @@ div.post {
     padding: 1em 0 0 0; }
     #replies li.reply p {
       margin-bottom: 1em; }
-
-ul.errors {
-  display: hidden; }
-  ul.errors li {
-    color: red;
-    font-weight: bold; }
