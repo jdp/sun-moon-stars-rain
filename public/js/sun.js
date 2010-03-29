@@ -45,41 +45,27 @@ var Sun = {
 	},
 
 	createPost: function(form) {
-		$.post("/new_post", Sun.elements.newPost.serialize(), function(data) {
-			var error_list = form.find("ul.errors");
+		form.find("input, textarea").css("background-color", "#eee");
+		$.post("/new_post", form.serialize(), function(data) {
 			if (data.status == "failure") {
-				// Populate error listing with errors
-				error_list.empty();
 				for (var name in data.errors) {
-					for (var i = 0; i < data.errors[name].length; i++) {
-						error_list.append($("<li>" + name + ": " + data.errors[name][i] + "</li>"));
-					}
+					form.find('*[name="post[' + name + ']"]').animate({
+						backgroundColor: "#ffe8e8"
+					}, 1000);
 				}
-				error_list.show();
-			}
-			else {
-				// Since the reply was successful, hide the error list
-				error_list.hide();
 			}
 		}, "json");
 	},
 
 	createReply: function(form) {
-		$.post("/new_reply", Sun.elements.newReply.serialize(), function(data) {
-			var error_list = form.find("ul.errors");
+		form.find("input, textarea").css("background-color", "#eee");
+		$.post("/new_reply", form.serialize(), function(data) {
 			if (data.status == "failure") {
-				// Populate error listing with errors
-				error_list.empty();
 				for (var name in data.errors) {
-					for (var i = 0; i < data.errors[name].length; i++) {
-						error_list.append($("<li>" + name + ": " + data.errors[name][i] + "</li>"));
-					}
+					form.find('*[name="reply[' + name + ']"]').animate({
+						backgroundColor: "#ffe8e8"
+					}, 1000);
 				}
-				error_list.show();
-			}
-			else {
-				// Since the reply was successful, hide the error list
-				error_list.hide();
 			}
 		}, "json");
 	},
