@@ -14,7 +14,7 @@
     %a#new-post{ :href => "#new_post" } New Post
 
 %ul#posts
-  - @posts.each do |post|
+  - @pagination.each do |post|
     %li.post{ :id => "post-#{post.id}" }
       .wrapper
         %span.thread-link

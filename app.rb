@@ -56,11 +56,22 @@ post '/new_post' do
   end
 end
 
+post '/new_reply' do
+  content_type :json
+  reply = Reply.create(params[:reply])
+  if reply.save
+    Pusher['main'].trigger("reply_created", reply.values.merge({ :dom_id => "reply-#{reply.post_id}-#{reply.id}"}), params[:socket_id])
+    {:status => :success}.to_json
+  else
+    {:status => :failure}.to_json
+  end
+end
+
 get %r{/post/(\d+)(/(\d+))?} do
   id = (params[:captures][0] || 1).to_i
   page = (params[:captures][2] || 1).to_i
   @post = Post[id]
   @replies = @post.replies_dataset
-  @pagination = @replies.paginate(page, 20)
+  @paginated_replies = @replies.paginate(page, 20)
   haml :single_post
 end

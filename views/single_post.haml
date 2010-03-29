@@ -1,3 +1,23 @@
 .post{ :id => "post-#{@post.id}" }
-  %h3= @post.title
-  = @post.body
+  .wrapper
+    %h3= @post.title
+    .body= @post.body
+
+- if @paginated_replies.current_page_record_count > 0
+  %ul#replies
+    - @paginated_replies.each do |reply|
+      %li.reply{:id => "reply-#{reply.id}", :'data-post-id' => @post.id}
+        .wrapper
+          .body= reply.body
+- else
+  .wrapper No replies.
+
+#reply_box
+  .wrapper
+    %form#reply_form{ :method => 'post', :action => '/new_reply' }
+      %fieldset
+        %legend Body
+        %textarea{ :name => "reply[body]", :rows => 5, :cols => 80 }
+      %fieldset
+        %input{ :type => "hidden", :name => "reply[post_id]", :value => @post.id }
+        %input{ :type => "submit", :name => "submit", :value => "Add This Reply" }

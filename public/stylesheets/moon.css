@@ -49,4 +49,20 @@ legend {
   border-top: solid #eeeeee 1px; }
   #posts li.post {
     padding: 1em 0 1em 0;
-    border-bottom: solid #eeeeee 1px; }
+    border-bottom: solid #eeeeee 1px;
+    background-color: #ffffff; }
+  #posts li.new {
+    background-color: #ffffcc; }
+
+div.post {
+  border-top: solid #eeeeee 1px;
+  border-bottom: solid #eeeeee 1px; }
+  div.post h3 {
+    font-weight: bold;
+    margin: 1em 0 1em 0; }
+
+#replies {
+  margin: 0 0 1em 0; }
+  #replies li.reply {
+    border-bottom: solid #eeeeee 1px;
+    padding: 1em 0 1em 0; }
