@@ -37,8 +37,8 @@ class Post < Sequel::Model
 
   def before_create
     super
-    self.created_at = Time.now.utc
-    self.updated_at = Time.now.utc
+    self.created_at = Time.now
+    self.updated_at = Time.now
     self.html_body = RDiscount.new(body).to_html
   end
 
@@ -57,8 +57,8 @@ class Reply < Sequel::Model
 
   def before_create
     super
-    self.created_at = Time.now.utc
-    self.updated_at = Time.now.utc
+    self.created_at = Time.now
+    self.updated_at = Time.now
     self.html_body = RDiscount.new(body).to_html
   end
 
