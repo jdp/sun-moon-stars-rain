@@ -2,12 +2,19 @@
   .wrapper
     %h3= @post.title
     .body= @post.html_body
+    .meta
+      posted
+      %time.timeago{:datetime => @post.created_at.iso8601}
 
 %ul#replies
   - @paged_replies.each do |reply|
     %li.reply{:id => "reply-#{reply.id}", :'data-post-id' => @post.id}
       .wrapper
         .body= reply.html_body
+        .meta
+          posted
+          %time.timeago{:datetime => reply.created_at.iso8601}
+        
 
 .pagination
   - if !@paged_replies.first_page?

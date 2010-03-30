@@ -58,6 +58,8 @@ var Sun = {
 					errorCallback: function() {
 						Sun.ui.appendNewReplies = true
 					}
+				}, function() {
+					Sun.updateTimes();
 				});
 			}
 		});
@@ -142,6 +144,10 @@ var Sun = {
 			reply_counter.text(parseInt(reply_counter.text()) + 1);
 			reply_counter.parent().addClass("new").show();
 		}
+	},
+
+	updateTimes: function() {
+		$("time.timeago").timeago();
 	}
 
 }
@@ -149,4 +155,5 @@ var Sun = {
 // Start the show
 $("document").ready(function() {
 	Sun.setup();
+	Sun.updateTimes();
 });

@@ -59,6 +59,9 @@ legend {
 div.post {
   border-top: solid #eeeeee 1px;
   border-bottom: solid #eeeeee 1px; }
+  div.post .meta {
+    color: #ccc;
+    margin: 0 0 1em 0; }
   div.post h3 {
     font-weight: bold;
     margin: 1em 0 1em 0; }
@@ -70,6 +73,9 @@ div.post {
   #replies li.reply {
     border-bottom: solid #eeeeee 1px;
     padding: 1em 0 0 0; }
+    #replies li.reply .meta {
+      color: #ccc;
+      margin: 0 0 1em 0; }
     #replies li.reply p {
       margin-bottom: 1em; }
   #replies li.new {
