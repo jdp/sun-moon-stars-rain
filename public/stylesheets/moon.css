@@ -74,3 +74,6 @@ div.post {
       margin-bottom: 1em; }
   #replies li.new {
     background-color: #ffffcc; }
+
+.pagination {
+  display: none; }
