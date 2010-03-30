@@ -38,12 +38,18 @@ class Post < Sequel::Model
   def before_create
     super
     self.created_at = Time.now.utc
+    self.updated_at = Time.now.utc
     self.html_body = RDiscount.new(body).to_html
+  end
+
+  def update_new_reply_time time
+    self.updated_at = time
+    self.save
   end
 end
 
 class Reply < Sequel::Model
-  many_to_one :thread
+  many_to_one :post
 
   def validate
     errors.add(:body, "cannot be empty") if body.strip.empty?
@@ -52,7 +58,13 @@ class Reply < Sequel::Model
   def before_create
     super
     self.created_at = Time.now.utc
+    self.updated_at = Time.now.utc
     self.html_body = RDiscount.new(body).to_html
+  end
+
+  def after_create
+    super
+    self.post.update_new_reply_time self.created_at
   end
 end
 
@@ -62,7 +74,7 @@ end
 
 get '/page/:page' do
   page = (params[:page] || 1).to_i
-  @posts = Post.order(:id.desc)
+  @posts = Post.order(:updated_at.desc)
   @pagination = @posts.paginate(page, 20)
   haml :post_list, :layout => !request.xhr?
 end
