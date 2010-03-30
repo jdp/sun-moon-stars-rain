@@ -68,7 +68,10 @@ var Sun = {
 		var submit_button = form.find('input[type="submit"]');
 		submit_button.attr("disabled", "true");
 		$.post("/new_post", form.serialize(), function(data) {
-			if (data.status == "failure") {
+			if (data.status == "success") {
+				form.find('input[type!="submit"], textarea').val("");
+			}
+			else if (data.status == "failure") {
 				for (var name in data.errors) {
 					form.find('*[name="post[' + name + ']"]').animate({
 						backgroundColor: "#ffe8e8"
@@ -84,7 +87,10 @@ var Sun = {
 		var submit_button = form.find('input[type="submit"]');
 		submit_button.attr("disabled", "true");
 		$.post("/new_reply", form.serialize(), function(data) {
-			if (data.status == "failure") {
+			if (data.status == "success") {
+				form.find("textarea").val("");
+			}
+			else if (data.status == "failure") {
 				for (var name in data.errors) {
 					form.find('*[name="reply[' + name + ']"]').animate({
 						backgroundColor: "#ffe8e8"
