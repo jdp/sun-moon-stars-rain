@@ -91,6 +91,15 @@ post '/new_post' do
   end
 end
 
+get %r{/post/(\d+)(/page/(\d+))?} do
+  post_id = (params[:captures][0] || 1).to_i
+  page = (params[:captures][2] || 1).to_i
+  @post = Post[post_id]
+  @replies = @post.replies_dataset.order(:created_at.asc)
+  @paged_replies = @replies.paginate(page, 20)
+  haml :single_post, :layout => !request.xhr?
+end
+
 post '/new_reply' do
   content_type :json
   reply = Reply.new(params[:reply])
@@ -101,13 +110,4 @@ post '/new_reply' do
   rescue Sequel::ValidationFailed
     {:status => :failure, :errors => reply.errors}.to_json
   end
-end
-
-get %r{/post/(\d+)(/(\d+))?} do
-  post_id = (params[:captures][0] || 1).to_i
-  page = (params[:captures][2] || 1).to_i
-  @post = Post[post_id]
-  @replies = @post.replies_dataset
-  @paginated_replies = @replies.paginate(page, 20)
-  haml :single_post
 end

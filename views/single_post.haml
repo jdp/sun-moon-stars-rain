@@ -4,10 +4,17 @@
     .body= @post.html_body
 
 %ul#replies
-  - @paginated_replies.each do |reply|
+  - @paged_replies.each do |reply|
     %li.reply{:id => "reply-#{reply.id}", :'data-post-id' => @post.id}
       .wrapper
         .body= reply.html_body
+
+.pagination
+  - if !@paged_replies.first_page?
+    %a.prev{ :href => "/post/#{@post.id}/page/#{@paged_replies.prev_page}" } Previous
+  %span.current= @paged_replies.current_page
+  - if !@paged_replies.last_page?
+    %a.next{ :href => "/post/#{@post.id}/page/#{@paged_replies.next_page}" } Next
 
 #reply_box
   .wrapper

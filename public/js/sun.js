@@ -3,6 +3,7 @@ var Sun = {
 	pusherApiKey: "a337f1f0e27defa52a95",
 	listeners: {},
 	elements: {},
+	ui: {},
 
 	/*
 	 * Set up the application.
@@ -25,6 +26,9 @@ var Sun = {
 		Sun.listeners.main.bind("reply_created", function(reply) {
 			Sun.onReplyCreated(reply);
 		});
+		Sun.ui = {
+			appendNewReplies: false
+		};
 		$(function() {
 			Sun.elements = {
 				posts: $("#posts"),
@@ -41,6 +45,16 @@ var Sun = {
 				Sun.createReply($(event.currentTarget));
 				return false;
 			});
+			if (Sun.elements.replies.length) {
+				$(Sun.elements.replies).infinitescroll({
+					navSelector: ".pagination",
+					nextSelector: ".pagination .next",
+					itemSelector: "#replies .reply",
+					errorCallback: function() {
+						Sun.ui.appendNewReplies = true
+					}
+				});
+			}
 		});
 	},
 
@@ -92,16 +106,18 @@ var Sun = {
 	onReplyCreated: function(reply) {
 		if ($("div#post-" + reply.post_id).length) {
 			// Currently viewing same thread as new reply
-			var new_reply = $([
-				'<li id="reply-"' + reply.id + '" class="reply new">',
-					'<div class="wrapper">',
-						'<div class="body">' + reply.html_body + '</div>',
-					'</div>',
-				'</li>'
-			].join("")).click(function() {
-				$(this).removeClass("new");
-			});
-			Sun.elements.replies.append(new_reply);
+			if (Sun.ui.appendNewReplies) {
+				var new_reply = $([
+					'<li id="reply-"' + reply.id + '" class="reply new">',
+						'<div class="wrapper">',
+							'<div class="body">' + reply.html_body + '</div>',
+						'</div>',
+					'</li>'
+				].join("")).click(function() {
+					$(this).removeClass("new");
+				});
+				Sun.elements.replies.append(new_reply);
+			}
 		}
 		else {
 			var thread_row = $("#post-" + reply.post_id);

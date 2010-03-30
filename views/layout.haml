@@ -3,8 +3,8 @@
     %title sun moon stars rain
     %link{ :type => "text/css", :media => "screen", :rel => "stylesheet", :href => "/stylesheets/reset.css" }
     %link{ :type => "text/css", :media => "screen", :rel => "stylesheet", :href => "/stylesheets/moon.css" }
-    - ["jquery-1.4.1", "jquery.color", "jquery.timeago"].each do |js|
-      %script{ :type => "text/javascript", :src => "/js/#{js}.js" }
+    - ["-1.4.1", ".color", ".timeago", ".infinitescroll"].each do |js|
+      %script{ :type => "text/javascript", :src => "/js/jquery#{js}.js" }
     - ["swfobject", "FABridge", "web_socket"].each do |js|
       %script{ :type => "text/javascript", :src => "/js/#{js}.js" }
     %script{ :type => "text/javascript", :src => "http://pusherapp.com/js/v1/pusher.js" }
