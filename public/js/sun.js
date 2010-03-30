@@ -10,13 +10,18 @@ var Sun = {
 	 * Pusher listeners are initialized and default channels are created.
 	 */
 	setup: function() {
+		Sun.ui = {
+			appendNewReplies: false,
+			socketId: null
+		};
 		Sun.listeners = {
 			main: new Pusher(Sun.pusherApiKey, "main")
 		};
 		Sun.listeners.main.bind("connection_established", function(event) {
+			Sun.ui.socketId = event.socket_id;
 			$.ajaxSetup({
 				data: {
-					socket_id: event.socket_id
+					socket_id: Sun.ui.socketId
 				}
 			});
 		});
@@ -26,9 +31,6 @@ var Sun = {
 		Sun.listeners.main.bind("reply_created", function(reply) {
 			Sun.onReplyCreated(reply);
 		});
-		Sun.ui = {
-			appendNewReplies: false
-		};
 		$(function() {
 			Sun.elements = {
 				posts: $("#posts"),
@@ -45,6 +47,9 @@ var Sun = {
 				Sun.createReply($(event.currentTarget));
 				return false;
 			});
+			// Only allow newly-created replies to be shown in reply list if
+			// the user has seen them all
+			Sun.ui.appendNewReplies = Sun.elements.replies.children().length < 20;
 			if (Sun.elements.replies.length) {
 				$(Sun.elements.replies).infinitescroll({
 					navSelector: ".pagination",
@@ -60,6 +65,8 @@ var Sun = {
 
 	createPost: function(form) {
 		form.find("input, textarea").css("background-color", "#eee");
+		var submit_button = form.find('input[type="submit"]');
+		submit_button.attr("disabled", "true");
 		$.post("/new_post", form.serialize(), function(data) {
 			if (data.status == "failure") {
 				for (var name in data.errors) {
@@ -68,11 +75,14 @@ var Sun = {
 					}, 1000);
 				}
 			}
+			submit_button.removeAttr("disabled");
 		}, "json");
 	},
 
 	createReply: function(form) {
 		form.find("input, textarea").css("background-color", "#eee");
+		var submit_button = form.find('input[type="submit"]');
+		submit_button.attr("disabled", "true");
 		$.post("/new_reply", form.serialize(), function(data) {
 			if (data.status == "failure") {
 				for (var name in data.errors) {
@@ -81,6 +91,7 @@ var Sun = {
 					}, 1000);
 				}
 			}
+			submit_button.removeAttr("disabled");
 		}, "json");
 	},
 
