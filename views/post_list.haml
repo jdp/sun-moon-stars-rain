@@ -14,7 +14,7 @@
     %a#new-post{ :href => "#new_post" } New Post
 
 %ul#posts
-  - @pagination.each do |post|
+  - @paged_posts.each do |post|
     %li.post{ :id => "post-#{post.id}" }
       .wrapper
         %span.thread-link
@@ -23,3 +23,10 @@
           (
           %span.count> 0
           &nbsp;new replies)
+
+.pagination
+  - if !@paged_posts.first_page?
+    %a.prev{ :href => "page/#{@paged_posts.prev_page}" } Previous
+  %span.current= @paged_posts.current_page
+  - if !@paged_posts.last_page?
+    %a.next{ :href => "/page/#{@paged_posts.next_page}" } Next

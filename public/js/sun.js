@@ -19,11 +19,6 @@ var Sun = {
 		};
 		Sun.listeners.main.bind("connection_established", function(event) {
 			Sun.ui.socketId = event.socket_id;
-			$.ajaxSetup({
-				data: {
-					socket_id: Sun.ui.socketId
-				}
-			});
 		});
 		Sun.listeners.main.bind("post_created", function(post) {
 			Sun.onPostCreated(post);
@@ -58,6 +53,15 @@ var Sun = {
 					errorCallback: function() {
 						Sun.ui.appendNewReplies = true
 					}
+				}, function() {
+					Sun.updateTimes();
+				});
+			}
+			else if (Sun.elements.posts.length) {
+				$(Sun.elements.posts).infinitescroll({
+					navSelector: ".pagination",
+					nextSelector: ".pagination .next",
+					itemSelector: "#posts .post"
 				}, function() {
 					Sun.updateTimes();
 				});
