@@ -7,8 +7,9 @@ require 'rdiscount'
 DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://db/local.sqlite')
 Sequel.extension :pagination
 
+Pusher.app_id = '141'
 Pusher.key = 'a337f1f0e27defa52a95'
-Pusher.secret = 'a337f1f0e27defa52a95'
+Pusher.secret = '6e5d05c23d42d0d72ec0'
 
 set :haml, { :format => :html5 }
 

@@ -1,4 +1,4 @@
 sinatra --version '>= 1.0.0'
-pusher --version '>= 0.3.0'
-sequel --version '>= 3.9.0'
-haml --version '>= 2.2.22'
+pusher --version '>= 0.5.2'
+sequel --version '>= 3.12.0'
+haml --version '>= 3.0.9'

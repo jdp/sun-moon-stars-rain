@@ -5,9 +5,7 @@
     %link{ :type => "text/css", :media => "screen", :rel => "stylesheet", :href => "/stylesheets/moon.css" }
     - ["-1.4.1", ".color", ".timeago", ".infinitescroll"].each do |js|
       %script{ :type => "text/javascript", :src => "/js/jquery#{js}.js" }
-    - ["swfobject", "FABridge", "web_socket"].each do |js|
-      %script{ :type => "text/javascript", :src => "/js/#{js}.js" }
-    %script{ :type => "text/javascript", :src => "http://pusherapp.com/js/v1/pusher.js" }
+    %script{ :type => "text/javascript", :src => "http://js.pusherapp.com/1.4/pusher.min.js" }
     :javascript
       WebSocket.__swfLocation = "/swf/WebSocketMain.swf";
     %script{ :type => "text/javascript", :src => "/js/sun.js" }
